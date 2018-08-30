@@ -38,9 +38,9 @@ public class LoginInterceptor implements HandlerInterceptor {
         //获取session
         HttpSession session = request.getSession(true);
         logger.info("----进入登录拦截器--url："+request.getServletPath()+"-----");
-        if(session.getAttribute(WebConfig.LOGIN_USER) == null){
+        if(session.getAttribute(WebConfig.LOGIN_USER) != null){
             logger.info("------跳转到login页面-----");
-            response.sendRedirect(request.getContextPath()+"/index");
+            response.sendRedirect(request.getContextPath()+"/review/login");
             return false;
         }else{
             session.setAttribute(WebConfig.LOGIN_USER, session.getAttribute(WebConfig.LOGIN_USER));

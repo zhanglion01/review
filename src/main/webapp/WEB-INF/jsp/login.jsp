@@ -3,8 +3,8 @@
 <head>
     <title>登陆页面</title>
     <link rel="stylesheet" href="/css/bootstrap.css">
-    <script src="/css/bootstrap.js"></script>
     <script src="/css/jquery-3.3.1.min.js"></script>
+    <script src="/css/bootstrap.js"></script>
 </head>
 <body background="/css/loginBack.png">
 <div align="right" style="padding-top: 70px;margin-right: 100px">
@@ -52,14 +52,18 @@
                     contentType: "application/json;charset=utf-8",
                     type:"post",
                     success:function(redata){
-                        if(redata.msg!="Sucess"){
-                            alert("登陆失败！请重新输入")
-                        }else{
+                        if(redata.msg=="sucess"){
                             alert("登陆成功！");
                             location.href = "/review/index";
+                        }else if(redata.msg=="usernameerror"){
+                            alert("用户不存在");
+                            return;
+                        }else if(redata.msg=="passworderror"){
+                            alert("密码错误");
+                            return;
                         }
                     },error:function (redata) {
-                        alert("登陆成功！");
+                        alert("出错了！");
                     }
                 })
             })

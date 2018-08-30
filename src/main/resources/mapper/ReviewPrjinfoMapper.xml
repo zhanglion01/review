@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.review.mapper.ReviewPrjinfoMapper">
+    <!-- insert user -->
+    <insert id = "insert" parameterType="com.review.pojo.ReviewPrjinfo">
+        INSERT INTO USER(ID,USERNAME,PASSWORD,AGE) VALUES(#{id},#{username},#{password},#{age});
+    </insert>
+
+    <!-- update user -->
+    <update id="edit" parameterType="com.review.pojo.ReviewPrjinfo">
+        UPDATE USER SET USERNAME=#{username} , PASSWORD=#{password} , AGE = #{age} WHERE ID=#{id}
+    </update>
+
+    <!-- find user -->
+    <select id="find" parameterType="String" resultType="com.review.pojo.ReviewPrjinfo">
+        SELECT PSUSER_ID AS psuserId,PSUSER_NAME as psuserName,PSUSER_PASS as psuserPass,PSUSER_DEPT as psuserDept,
+        PSUSER_UNIT as psuserUnit,VALID_FLAG as validFlag,UPDATE_TIME as updateTime FROM PS_USER
+    </select>
+
+    <!-- delete user -->
+    <delete id="delete" parameterType="String">
+        DELETE FROM PS_USER WHERE PSUSER_NAME=#{0}
+    </delete>
+
+    <resultMap id="reviewPrjinfos" type="com.review.pojo.ReviewPrjinfo">
+        <id column="reviewprjId" property="reviewprjId" />
+        <result column="prjName" property="prjName" />
+        <result column="prjDept" property="prjDept" />
+        <result column="prjLeader" property="prjLeader" />
+        <result column="prjUnit" property="prjUnit" />
+        <result column="prjInfo" property="prjInfo" />
+        <result column="prjYear" property="prjYear" />
+        <result column="startTime" property="startTime" />
+        <result column="endTime" property="endTime" />
+        <result column="validFlag" property="validFlag" />
+        <result column="updateTime" property="updateTime" />
+    </resultMap>
+
+    <!-- getSummaryList -->
+    <select id="getSummaryList" parameterType="String" resultMap="reviewPrjinfos">
+        select t.REVIEWPRJ_ID as reviewprjId,t.PRJ_NAME as prjName,t.PRJ_DEPT as prjDept,
+        t.PRJ_LEADER as prjLeader,t.PRJ_UNIT as prjUnit,t.PRJ_INFO as prjInfo,
+        t.PRJ_YEAR as prjYear,t.START_TIME as startTime,t.END_TIME as endTime,
+        t.VALID_FLAG as validFlag,t.UPDATE_TIME as updateTime from REVIEW_PRJINFO t
+    </select>
+</mapper>

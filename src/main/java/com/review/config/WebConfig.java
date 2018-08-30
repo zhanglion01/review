@@ -37,7 +37,7 @@ public class WebConfig extends WebMvcConfigurerAdapter {
     public void addInterceptors(InterceptorRegistry registry) {
         // 拦截规则：除了login，其他都拦截判断,excludePathPatterns是排除拦截的路径，一个是登录验证地址，一个是登录页
         registry.addInterceptor(new
-                LoginInterceptor()).addPathPatterns("/**").excludePathPatterns("/index","/system/user/validate");
+                LoginInterceptor()).addPathPatterns("/**").excludePathPatterns("/login","/system/user/validate");
         super.addInterceptors(registry);
     }
 }

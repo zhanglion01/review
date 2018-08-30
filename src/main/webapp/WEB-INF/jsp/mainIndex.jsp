@@ -3,8 +3,8 @@
 <head>
     <title>系统首页</title>
     <link rel="stylesheet" href="/css/bootstrap.css">
-    <script src="/css/bootstrap.js"></script>
     <script src="/css/jquery-3.3.1.min.js"></script>
+    <script src="/css/bootstrap.js"></script>
     <style type="text/css">
         #main-nav {
             margin-left: 1px;
@@ -53,16 +53,20 @@
         #main-nav.nav-tabs.nav-stacked > li {
             margin-bottom: 4px;
         }
-
+        .div-inline{ display:inline}
     </style>
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 </head>
 <body background="/css/indexBack.png">
-    <div class="container-fluid" style="background: #55845f;height: 10%">
-        <div style="height: 100%;width: 100%">
-           评审系统
-        </div>
-    </div>
+<div class="container-fluid" style="background: #4bffc3;height: 10%">
+    <table width="100%">
+        <tr>
+            <td width="90%"><h2>评审系统</h2></td>
+            <td><a href="#" onclick="exitSys()">退出</a></td>
+
+        </tr>
+    </table>
+</div>
 <div class="container-fluid">
     <div class="row">
         <div class="col-md-2">
@@ -113,6 +117,10 @@
         }else if(index == "4"){
             $("#frame1")[0].src = "http://localhost:8080/reviewInfo/summary";
         }
+    }
+    
+    function exitSys() {
+        location.href = "http://localhost:8080/review/login";
     }
 </script>
 </html>
