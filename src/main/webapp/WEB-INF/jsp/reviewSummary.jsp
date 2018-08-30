@@ -42,15 +42,15 @@
     <table id="tb_departments"></table>
 </div>
 
-<div id="myModal" class="modal hide fade">
+<div id="myModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-body">
-        <iframe id="myIframe" width="100%" height="100%"></iframe>
+        <iframe id="myIframe" width="100%" height="90%"></iframe>
     </div>
 </div>
 </body>
 <script type="text/javascript">
     function addPrj(){
-        $("#myIframe").attr("src","http://localhost:8080/reviewInfo/addInfo");
+        $("#myIframe")[0].src="http://localhost:8080/reviewInfo/addInfo";
         $('#myModal').modal({show:true});
     }
 
