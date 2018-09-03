@@ -21,7 +21,6 @@ public class LoginController {
     @Resource
     private PsUserService psUserService;
 
-    @Autowired
     @RequestMapping(value = "/login")
     public String user(HttpServletRequest request) {
         return "login";

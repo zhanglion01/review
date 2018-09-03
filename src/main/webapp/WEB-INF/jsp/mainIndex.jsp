@@ -99,23 +99,24 @@
             </ul>
         </div>
         <div class="embed-responsive embed-responsive-4by3" style="height: 90%;padding-bottom:0%">
-            <iframe class="embed-responsive-item" src="http://localhost:8080/reviewInfo/index" id="frame1"></iframe>
+            <iframe class="embed-responsive-item" src="http://localhost:8888/reviewInfo/index" id="frame1"></iframe>
         </div>
     </div>
 </div>
 </body>
 <script type="text/javascript">
     function changeFrameContent(index) {
+        var str=window.location.origin;
         if(index == "0"){
-            $("#frame1")[0].src = "http://localhost:8080/reviewInfo/index";
+            $("#frame1")[0].src = str+"/reviewInfo/index";
         }else if(index == "1"){
-            $("#frame1")[0].src = "http://localhost:8080/reviewInfo/params";
+            $("#frame1")[0].src = str+"/reviewInfo/params";
         }else if(index == "2"){
-            $("#frame1")[0].src = "http://localhost:8080/reviewInfo/info";
+            $("#frame1")[0].src = str+"/reviewInfo/info";
         }else if(index == "3"){
-            $("#frame1")[0].src = "http://localhost:8080/reviewInfo/score";
+            $("#frame1")[0].src = str+"/reviewInfo/score";
         }else if(index == "4"){
-            $("#frame1")[0].src = "http://localhost:8080/reviewInfo/summary";
+            $("#frame1")[0].src = str+"/reviewInfo/summary";
         }
     }
     
