@@ -11,7 +11,6 @@
 </head>
 <body>
 <form class="form-horizontal">
-    <fieldset>
         <div id="legend" class="">
             <legend class="">基本信息</legend>
         </div>
@@ -22,7 +21,12 @@
             </div>
         </div>
 
-    </fieldset>
+    <div class="form-actions" style="padding-left: 180px;">
+        <button type="submit" name="doAddChannelInfo" class="btn btn-primary">
+            <i class="icon-ok icon-white"></i>保存</button>&nbsp;&nbsp;
+        <button type="button" class="btn btn-primary cancelBtn">
+            <i class="icon-remove icon-white"></i>取消</button>
+    </div>
 </form>
 
 </body>
