@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.review.mapper.PsInfoFillMapper">
+
+
+    <!-- 新增-->
+    <insert id="save" parameterType="com.review.pojo.PsInfoFill">
+        insert into PS_INFO_FILL(
+        re_name,
+        re_prj,
+        re_year,
+        re_unit,
+    uuid
+        ) values (
+        #{re_name},
+        #{re_prj},
+        #{re_year},
+        #{re_unit},
+    #{uuid}
+        )
+    </insert>
+
+
+    <!-- 删除-->
+    <delete id="delete" parameterType="com.review.pojo.PsInfoFill">
+        delete from PS_info_fill
+        where
+    uuid = #{uuid}
+    </delete>
+
+
+    <!-- 修改 -->
+    <update id="edit" parameterType="com.review.pojo.PsInfoFill">
+        update  PS_info_fill
+        set
+            re_name = #{re_name},
+            re_prj = #{re_prj},
+            re_year = #{re_year},
+            re_unit = #{re_unit},
+        where
+    uuid = #{uuid}
+    </update>
+
+
+    <!-- 通过ID获取数据 -->
+    <select id="findById" parameterType="java.lang.String" resultType="com.review.pojo.PsInfoFill">
+        select
+        re_name,
+        re_prj,
+        re_year,
+        re_unit,
+    uuid
+        from
+    PS_info_fill
+        where
+    uuid = #{uuid}
+    </select>
+
+    <!-- 列表(全部) -->
+    <select id="listAll"  parameterType="PsInfoFill" resultMap="PsInfofillResultMap">
+        select
+				a.re_name,
+				a.re_prj,
+				a.re_year,
+				a.re_unit,
+        a.uuid
+        from
+    PS_INFO_FILL a
+        where 1=1
+
+          <!--<if test="reName!=null">-->
+              <!--and  a.re_name like #{reName}-->
+          <!--</if>-->
+          <!--<if test="reYear!=null">-->
+              <!--and a.re_year like #{reYear}-->
+          <!--</if>-->
+
+    </select>
+    
+    <resultMap id="PsInfofillResultMap" type="com.review.pojo.PsInfoFill">
+        <id property="uuid" column="uuid"></id>
+        <result property="reName" column="re_name"></result>
+        <result property="reYear" column="re_year"></result>
+        <result property="reUnit" column="re_unit"></result>
+        <result property="rePrj" column="re_prj"></result>
+    </resultMap>
+
+</mapper>

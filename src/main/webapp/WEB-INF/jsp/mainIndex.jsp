@@ -3,8 +3,8 @@
 <head>
     <title>系统首页</title>
     <link rel="stylesheet" href="/css/bootstrap.css">
-    <script src="/css/bootstrap.js"></script>
     <script src="/css/jquery-3.3.1.min.js"></script>
+    <script src="/css/bootstrap.js"></script>
     <style type="text/css">
         #main-nav {
             margin-left: 1px;
@@ -53,16 +53,20 @@
         #main-nav.nav-tabs.nav-stacked > li {
             margin-bottom: 4px;
         }
-
+        .div-inline{ display:inline}
     </style>
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 </head>
 <body background="/css/indexBack.png">
-    <div class="container-fluid" style="background: #55845f;height: 10%">
-        <div style="height: 100%;width: 100%">
-           评审系统
-        </div>
-    </div>
+<div class="container-fluid" style="background: #4bffc3;height: 10%">
+    <table width="100%">
+        <tr>
+            <td width="90%"><h2>评审系统</h2></td>
+            <td><a href="#" onclick="exitSys()">退出</a></td>
+
+        </tr>
+    </table>
+</div>
 <div class="container-fluid">
     <div class="row">
         <div class="col-md-2">
@@ -95,24 +99,29 @@
             </ul>
         </div>
         <div class="embed-responsive embed-responsive-4by3" style="height: 90%;padding-bottom:0%">
-            <iframe class="embed-responsive-item" src="http://localhost:8080/reviewInfo/index" id="frame1"></iframe>
+            <iframe class="embed-responsive-item" src="http://localhost:8888/reviewInfo/index" id="frame1"></iframe>
         </div>
     </div>
 </div>
 </body>
 <script type="text/javascript">
     function changeFrameContent(index) {
+        var str=window.location.origin;
         if(index == "0"){
-            $("#frame1")[0].src = "http://localhost:8080/reviewInfo/index";
+            $("#frame1")[0].src = str+"/reviewInfo/index";
         }else if(index == "1"){
-            $("#frame1")[0].src = "http://localhost:8080/reviewInfo/params";
+            $("#frame1")[0].src = str+"/reviewInfo/params";
         }else if(index == "2"){
-            $("#frame1")[0].src = "http://localhost:8080/reviewInfo/info";
+            $("#frame1")[0].src = str+"/reviewInfo/info";
         }else if(index == "3"){
-            $("#frame1")[0].src = "http://localhost:8080/reviewInfo/score";
+            $("#frame1")[0].src = str+"/reviewInfo/score";
         }else if(index == "4"){
-            $("#frame1")[0].src = "http://localhost:8080/reviewInfo/summary";
+            $("#frame1")[0].src = str+"/reviewInfo/summary";
         }
+    }
+    
+    function exitSys() {
+        location.href = "http://localhost:8080/review/login";
     }
 </script>
 </html>
