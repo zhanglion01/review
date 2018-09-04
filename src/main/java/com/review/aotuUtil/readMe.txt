@@ -1,0 +1,9 @@
+需在pom.xml文件中加入一下依賴
+ <!--生成模板必须-->
+        <dependency>
+            <groupId>freemarker</groupId>
+            <artifactId>freemarker</artifactId>
+            <version>2.3.8</version>
+        </dependency>
+使用方法：
+aotuUtil.create.CreateCodeController中修改相应的实体类名与表名，执行main方法即可
