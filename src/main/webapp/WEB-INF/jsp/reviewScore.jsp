@@ -32,7 +32,7 @@
         </div>
     </div>
     <div id="toolbar" class="btn-group" >
-        <button id="btn_add" type="button" class="btn btn-primary" onclick="addScore()">
+        <button id="btn_add" type="button" class="btn btn-primary" onclick="xx()">
             <span class="glyphicon-plus" aria-hidden="true"></span>新增
         </button>
         <button id="btn_edit" type="button" class="btn btn-primary" >
@@ -130,23 +130,53 @@
 
     function queryById(){
         var prjName = $("#txt_search_prjName").val();
+        if(prjName!=""){
         $.ajax({
             type : 'POST',
             url : "/reviewInfo/queryById?prjName="+prjName,
             contentType: "application/json;charset=utf-8",
             dataType : "json",
             success : function(datas) {//返回list数据并循环获取
-                $(function () {
-                    //1.初始化Table
-                    var oTable = new TableInit();
-                    oTable.Init();
-                });
+                $("#tb_departments").bootstrapTable('load', datas);
             }
-        });
+        });}
+        else{
+            $.ajax({
+                type : 'POST',
+                url : "/reviewInfo/getScoreList",
+                contentType: "application/json;charset=utf-8",
+                dataType : "json",
+                success : function(data) {//返回list数据并循环获取
+                    $("#tb_departments").bootstrapTable('load',data);
+                }
+            });
+        }
     }
 
-    function addScore(){
+    function xx(){
+        var i = 0;
+        var id;
+        $("input[name='btSelectItem']:checked").each(function () {
+            i++;
+            id = $(this).parents("tr").attr("data-uniqueid");
+        })
+        if (i > 1) {
+            alert("编辑只支持单一操作")
+        } else {
+            if (i != 0) {
+                alert("获取选中的id为" + id);
+                window.location.href = "/index/index";
+            } else {
+                alert("请选中要编辑的数据");
+            }
 
+        }
+
+    }
+
+
+
+    function addScore(){
        //$("#myIframe")[0].src="http://localhost:8080/reviewInfo/addInfo";
         $('#addModal1').modal({show:true});
         $(".selectpicker").selectpicker({
@@ -191,6 +221,12 @@
            success : function(result) {//返回list数据并循环获取
                if(result="S")
                alert("删除成功!");
+               var opt = {
+                   url: "/reviewInfo/getScoreList",
+                   silent: true,
+               };
+               $('#tb_departments').bootstrapTable('refresh',opt);
+
                },
            error : function (){
                alert("删除失败");
@@ -212,6 +248,7 @@
         //初始化Table
         oTableInit.Init = function () {
             $('#tb_departments').bootstrapTable({
+                editable:true,//开启编辑模式
                 url: '/reviewInfo/getScoreList',         //请求后台的URL（*）
                 contentType : "application/x-www-form-urlencoded",
                 method: 'post',                      //请求方式（*）
@@ -221,7 +258,7 @@
                 pagination: true,                   //是否显示分页（*）
                 sortable: false,                     //是否启用排序
                 sortOrder: "asc",                   //排序方式
-                queryParams: oTableInit.queryParams,//传递参数（*）
+                //queryParams: oTableInit.queryParams,//传递参数（*）
                 sidePagination: "server",           //分页方式：client客户端分页，server服务端分页（*）
                 pageNumber:1,                       //初始化加载第一页，默认第一页
                 pageSize: 10,                       //每页的记录行数（*）
@@ -237,23 +274,28 @@
                 }, {
                     field: 'scoreId',
                     title: '项目名称',
+                    edit:{type:'text'}
 
                 }, {
                     field: 'scoreUserId',
-                    title: '专家ID'
+                    title: '专家ID',
+                    edit:{type:'text'}
                 }, {
                     field: 'scoreUserName',
-                    title: '专家姓名'
+                    title: '专家姓名',
+                    edit:{type:'text'}
                 }, {
                     field: 'scoreUserDesc',
-                    title: '专家评语'
+                    title: '专家评语',
+                    edit:{type:'text'}
                 }, {
                     field: 'reviewName',
                     title: '项目名称',
-
+                    edit:{type:'text'}
                 },{
                     field: 'scoreValue',
-                    title: '分值'
+                    title: '分值',
+                    edit:{type:'text'}
                 }, {
                     field: 'scoreTime',
                     title: '打分时间',
@@ -261,8 +303,8 @@
                     //——修改——获取日期列的值进行转换
                     formatter: function (value, row, index) {
                         return changeDateFormat(value);
-                    }
-
+                    },
+                    edit:{type:'text'}
                     },{
                     field: 'reviewprjId',
                     title: '打分',
@@ -272,6 +314,7 @@
                     formatter: operateFormatter
 
                 }, ],
+
 
             });
         };
@@ -321,8 +364,6 @@
         };
         return oInit;
     };
-
-
 
 
 

@@ -1,10 +1,15 @@
 package com.review.controller;
 
-import com.fasterxml.jackson.databind.util.JSONPObject;
+
+
+
+import com.alibaba.fastjson.JSONObject;
 import com.review.pojo.ReviewPrjinfo;
 import com.review.pojo.ReviewScore;
 import com.review.service.ReviewPrjinfoService;
 import com.review.service.ReviewScoreService;
+
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -14,7 +19,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
-import java.text.SimpleDateFormat;
+
 import java.util.*;
 
 @Controller
@@ -114,13 +119,16 @@ public class ReviewController {
     }
     @ResponseBody
     @RequestMapping(value = "/delete",method = RequestMethod.POST)
-    public Object delete(@RequestBody Object  reviewScore) {
-        System.out.println("BBB");
+    public Object delete(@RequestBody String  reviewScore)  {
 
-
-        System.out.println(reviewScore);
-        System.out.println("AAA");
+        reviewScore=reviewScore.replace("[", "");
+        reviewScore=reviewScore.replace("]", "");
+        JSONObject jsonObject = JSONObject.parseObject(reviewScore);
+        String scoreID = jsonObject.getString("scoreId");
+        reviewScoreService.deleteById(scoreID);
 
         return 'S';
     }
+
+
 }

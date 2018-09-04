@@ -11,4 +11,6 @@ public interface ReviewScoreIservice {
 
     public List<ReviewScore> queryById(String params);
 
+    public void deleteById(String params);
+
 }

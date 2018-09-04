@@ -28,5 +28,10 @@ public class ReviewScoreService  implements ReviewScoreIservice{
         return list;
     }
 
+    @Override
+    public void deleteById(String params){
+        reviewScoreMapper.deleteById(params);
+    }
+
 
 }
