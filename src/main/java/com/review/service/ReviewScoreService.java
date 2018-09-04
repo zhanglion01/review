@@ -22,4 +22,11 @@ public class ReviewScoreService  implements ReviewScoreIservice{
         return list;
     }
 
+    @Override
+    public List<ReviewScore> queryById(String params) {
+        List<ReviewScore> list =reviewScoreMapper.queryById(params);
+        return list;
+    }
+
+
 }

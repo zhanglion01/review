@@ -95,7 +95,6 @@ public class ReviewController {
         List<ReviewScore> poList = new ArrayList<ReviewScore>();
             String params = request.getParameter("prjName");
         poList = reviewScoreService.getSummaryList(params);
-        System.out.println(params);
         map.put("total", poList.size());
         map.put("rows", poList);
         return map;
@@ -106,8 +105,9 @@ public class ReviewController {
     public Map<String,Object> queryById(HttpServletRequest request){
         Map<String, Object> map = new HashMap<String, Object>();
         List<ReviewScore> poList = new ArrayList<ReviewScore>();
-
-
+        String params = request.getParameter("prjName");
+        poList = reviewScoreService.queryById(params);
+        System.out.println(params);
         map.put("total", poList.size());
         map.put("rows", poList);
         return map;

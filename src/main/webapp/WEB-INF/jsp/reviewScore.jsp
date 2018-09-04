@@ -132,7 +132,7 @@
         var prjName = $("#txt_search_prjName").val();
         $.ajax({
             type : 'POST',
-            url : "/reviewInfo/getScoreList?prjName="+prjName,
+            url : "/reviewInfo/queryById?prjName="+prjName,
             contentType: "application/json;charset=utf-8",
             dataType : "json",
             success : function(datas) {//返回list数据并循环获取

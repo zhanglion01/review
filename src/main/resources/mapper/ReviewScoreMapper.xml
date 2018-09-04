@@ -26,12 +26,26 @@
         S.review_name as reviewName
         FROM
         REVIEW_SCORE S
-        where 1=1
 
-            and SCORE_ID = #{0}
 
     </select>
 
+    <select id="queryById" parameterType="String" resultMap="reviewScore">
+        SELECT
+        S.score_id AS scoreId,
+        S.score_user_id AS scoreUserId,
+        S.score_user_name AS scoreUserName,
+        S.score_user_desc as scoreUserDesc,
+        S.score_value as scoreValue,
+        S.score_time as scoreTime,
+        S.reviewprj_id as reviewprjId,
+        S.review_name as reviewName
+        FROM
+        REVIEW_SCORE S
+        where 1=1
+            and SCORE_ID = #{0}
+
+    </select>
 
     <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
         <!--

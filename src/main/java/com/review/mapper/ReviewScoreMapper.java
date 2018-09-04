@@ -10,6 +10,8 @@ public interface ReviewScoreMapper {
 
     public List<ReviewScore> getSummaryList(String params);
 
+    public List<ReviewScore> queryById(String params);
+
     public  int updateByPrimaryKeySelective(ReviewScore record);
 
     public  int insertSelective(ReviewScore record);
