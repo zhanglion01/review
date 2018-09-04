@@ -4,10 +4,7 @@ import com.review.pojo.PsInfoFill;
 import com.review.pojo.ReviewPrjinfo;
 import com.review.service.IPsInfoFillService;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -22,14 +19,20 @@ public class PsInfoFillController {
     @Resource
     private IPsInfoFillService iPsInfoFillService;
 
+    @ResponseBody
     @RequestMapping(value="/getPsInfoFillList",method = RequestMethod.POST)
     public  Map<String,Object> getPsfillList(HttpServletRequest request){
         Map<String,Object> map =new HashMap<>();
-        String params=request.getParameter("params");
+        String Name=request.getParameter("reName");
+        String year=request.getParameter("reYear");
+        PsInfoFill psInfoFill=new PsInfoFill();
+        psInfoFill.setReName(Name);
+        psInfoFill.setReYear(year);
         List<PsInfoFill> poList = new ArrayList<PsInfoFill>();
-        poList = iPsInfoFillService.getPsfillList(params);
+        poList = iPsInfoFillService.getPsfillList(psInfoFill);
         map.put("total",poList.size());
         map.put("rows",poList);
         return map;
     }
+
 }

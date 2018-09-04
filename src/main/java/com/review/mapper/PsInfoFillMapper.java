@@ -16,5 +16,5 @@ public interface PsInfoFillMapper {
 
     public PsInfoFill find(String id);
 
-    public List<PsInfoFill> listAll(String params);
+    public List<PsInfoFill> listAll(PsInfoFill psInfoFill);
 }

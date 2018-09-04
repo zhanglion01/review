@@ -14,7 +14,7 @@ public class PsInfoFillService implements IPsInfoFillService {
     @Resource
     private PsInfoFillMapper psInfoFillMapper;
     @Override
-    public List<PsInfoFill> getPsfillList(String params) {
-        return psInfoFillMapper.listAll(params);
+    public List<PsInfoFill> getPsfillList(PsInfoFill psInfoFill) {
+        return psInfoFillMapper.listAll(psInfoFill);
     }
 }
