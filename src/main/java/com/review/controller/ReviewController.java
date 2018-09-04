@@ -1,25 +1,30 @@
 package com.review.controller;
 
+import com.fasterxml.jackson.databind.util.JSONPObject;
 import com.review.pojo.ReviewPrjinfo;
+import com.review.pojo.ReviewScore;
 import com.review.service.ReviewPrjinfoService;
+import com.review.service.ReviewScoreService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 @Controller
 @RequestMapping(value = "/reviewInfo")
 public class ReviewController {
     @Resource
     private ReviewPrjinfoService reviewPrjinfoService;
+
+    @Resource
+    private ReviewScoreService reviewScoreService;
 
     @Autowired
 
@@ -56,12 +61,66 @@ public class ReviewController {
     @ResponseBody
     @RequestMapping(value = "/getSummaryList",method = RequestMethod.POST)
     public Map<String,Object> getSummaryList(HttpServletRequest request){
-        Map<String,Object> map = new HashMap<String,Object>();
-        List<ReviewPrjinfo> poList = new ArrayList<ReviewPrjinfo>();
+            Map<String,Object> map = new HashMap<String,Object>();
+            List<ReviewPrjinfo> poList = new ArrayList<ReviewPrjinfo>();
+            String params = request.getParameter("params");
+            poList = reviewPrjinfoService.getSummaryList(params);
+            map.put("total",poList.size());
+            map.put("rows",poList);
+            return map;
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "/getList",method = RequestMethod.POST)
+    public List getList(HttpServletRequest request){
+        List poList = new ArrayList<>();
         String params = request.getParameter("params");
         poList = reviewPrjinfoService.getSummaryList(params);
-        map.put("total",poList.size());
-        map.put("rows",poList);
+        List list = null;
+        for(int i=0;i<poList.size();i++){
+            Object[] obj = (Object[])poList.get(i);
+            ReviewPrjinfo reviewPrjinfo = new ReviewPrjinfo();
+            reviewPrjinfo.setReviewprjId((String)obj[0]);
+            reviewPrjinfo.setPrjUnit((String)obj[1]);
+            list.add(reviewPrjinfo);
+        }
+        System.out.println("getAAAA");
+        return list;
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "/getScoreList",method = RequestMethod.POST)
+    public Map<String,Object> getScoreList(HttpServletRequest request) {
+        Map<String, Object> map = new HashMap<String, Object>();
+        List<ReviewScore> poList = new ArrayList<ReviewScore>();
+            String params = request.getParameter("prjName");
+        poList = reviewScoreService.getSummaryList(params);
+        System.out.println(params);
+        map.put("total", poList.size());
+        map.put("rows", poList);
         return map;
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "/queryById",method = RequestMethod.POST)
+    public Map<String,Object> queryById(HttpServletRequest request){
+        Map<String, Object> map = new HashMap<String, Object>();
+        List<ReviewScore> poList = new ArrayList<ReviewScore>();
+
+
+        map.put("total", poList.size());
+        map.put("rows", poList);
+        return map;
+    }
+    @ResponseBody
+    @RequestMapping(value = "/delete",method = RequestMethod.POST)
+    public Object delete(@RequestBody Object  reviewScore) {
+        System.out.println("BBB");
+
+
+        System.out.println(reviewScore);
+        System.out.println("AAA");
+
+        return 'S';
     }
 }
