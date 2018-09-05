@@ -13,4 +13,8 @@ public interface ReviewScoreIservice {
 
     public void deleteById(String params);
 
+    public void insertSelective(ReviewScore reviewScore);
+
+    public void grade(ReviewScore reviewScore);
+
 }

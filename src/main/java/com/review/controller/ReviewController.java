@@ -120,7 +120,7 @@ public class ReviewController {
     @ResponseBody
     @RequestMapping(value = "/delete",method = RequestMethod.POST)
     public Object delete(@RequestBody String  reviewScore)  {
-
+        System.out.println(reviewScore);
         reviewScore=reviewScore.replace("[", "");
         reviewScore=reviewScore.replace("]", "");
         JSONObject jsonObject = JSONObject.parseObject(reviewScore);
@@ -130,5 +130,48 @@ public class ReviewController {
         return 'S';
     }
 
+
+    @ResponseBody
+    @RequestMapping(value = "/addScore",method = RequestMethod.POST)
+    public Object addScore(@RequestBody String  reviewScore)  {
+        System.out.println(reviewScore);
+        reviewScore=reviewScore.replace("[", "");
+        reviewScore=reviewScore.replace("]", "");
+        JSONObject jsonObject = JSONObject.parseObject(reviewScore);
+        String scoreUserID = jsonObject.getString("scoreUserId1");
+        String scoreUserName = jsonObject.getString("scoreUserName1");
+        String reviewprjId = jsonObject.getString("slpk");
+        System.out.println("AAA"+scoreUserID);
+        ReviewScore score = new ReviewScore();
+        score.setScoreUserId(scoreUserID);
+        score.setScoreUserName(scoreUserName);
+        score.setReviewprjId(reviewprjId);
+        reviewScoreService.insertSelective(score);
+        return 'S';
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "/grade",method = RequestMethod.POST)
+    public Object grade(@RequestBody String  reviewScore)  {
+        System.out.println(reviewScore);
+        reviewScore=reviewScore.replace("[", "");
+        reviewScore=reviewScore.replace("]", "");
+        JSONObject jsonObject = JSONObject.parseObject(reviewScore);
+        String scoreId = jsonObject.getString("scoreId");
+        String scoreUserName = jsonObject.getString("scoreUserName");
+        String reviewName = jsonObject.getString("reviewName");
+        String scoreValue = jsonObject.getString("scoreValue");
+        String scoreUserDesc = jsonObject.getString("scoreUserDesc");
+       System.out.println("AA"+scoreId);
+        ReviewScore score = new ReviewScore();
+        score.setScoreId(scoreId);
+        score.setScoreUserName(scoreUserName);
+        score.setReviewName(reviewName);
+        score.setScoreValue(scoreValue);
+        score.setScoreUserDesc(scoreUserDesc);
+        score.setScoreTime(new Date());
+        reviewScoreService.grade(score);
+        return 'S';
+    }
 
 }

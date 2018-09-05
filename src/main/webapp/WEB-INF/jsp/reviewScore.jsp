@@ -5,12 +5,14 @@
     <link rel="stylesheet" href="/css/bootstrap.css" rel="stylesheet" >
     <link rel="stylesheet" href="/css/bootstrap-table.min.css" rel="stylesheet" >
     <link rel="stylesheet" href="/css/bootstrap-select.min.css" rel="stylesheet" >
+    <link rel="stylesheet" href="/css/bootstrap-editable.css" rel="stylesheet" >
 
     <script src="/css/jquery-3.3.1.min.js"></script>
     <script src="/css/bootstrap.js"></script>
     <script src="/css/bootstrap-table.min.js"></script>
     <script src="/css/bootstrap-table-zh-CN.js"></script>
     <script src="/css/bootstrap-select.min.js"></script>
+    <script src="/css/bootstrap-editable.min.js"></script>
 </head>
 <body>
 <div>
@@ -32,7 +34,7 @@
         </div>
     </div>
     <div id="toolbar" class="btn-group" >
-        <button id="btn_add" type="button" class="btn btn-primary" onclick="xx()">
+        <button id="btn_add" type="button" class="btn btn-primary" onclick="addScore()">
             <span class="glyphicon-plus" aria-hidden="true"></span>新增
         </button>
         <button id="btn_edit" type="button" class="btn btn-primary" >
@@ -59,7 +61,10 @@
                     <h4 class="modal-title" >打分</h4>
                 </div>
                 <div class="modal-body">
-
+                    <div class="form-group">
+                        <label for="scoreId"></label>
+                        <input  type="hidden" name="scoreUserName"  class="form-control" id="scoreId" >
+                    </div>
                     <div class="form-group">
                         <label for="scoreUserName">专家名称</label>
                         <input type="text" name="scoreUserName" class="form-control" id="scoreUserName" placeholder="专家名称">
@@ -73,14 +78,14 @@
                         <input type="text" name="scoreValue" class="form-control" id="scoreValue" placeholder="分值">
                     </div>
                     <div class="form-group">
-                        <label for="txt_statu">专家批语</label>
-                        <input type="text" name="txt_statu" class="form-control" id="txt_statu" placeholder="专家批语">
+                        <label for="scoreUserDesc">专家批语</label>
+                        <input type="text" name="txt_statu" class="form-control" id="scoreUserDesc" placeholder="专家批语">
                     </div>
                 </div>
 
                 <div class="modal-footer bg-info">
                     <input type="hidden" id="ID" name="ID" />
-                    <button type="submit" class="btn btn-primary"  onclick =search()>确定</button>
+                    <button type="submit" class="btn btn-primary"  onclick ="grade()">确定</button>
                     <button type="button" class="btn green" data-dismiss="modal">取消</button>
                 </div>
                 </form>
@@ -102,16 +107,24 @@
                 </div>
                 <form id="form_data" class="bs-example bs-example-form" role = "form">
                     <div class="form-group">
-                        <label for="txt_parentdepartment">专家名称</label>
-                        <input type="text" name="txt_parentdepartment" class="form-control" id="txt_parentdepartment" placeholder="专家名称">
+                        <label for="scoreUserId1">专家ID</label>
+                        <input type="text" name="scoreUserId" class="form-control" id="scoreUserId1" placeholder="专家ID">
                     </div>
                     <div class="form-group">
-                        <label for="txt_departmentlevel">项目名称</label>
-                        <input type="text" name="txt_departmentlevel" class="form-control" id="txt_departmentlevel" placeholder="项目名称">
+                        <label for="scoreUserName">专家名称</label>
+                        <input type="text" name="scoreUserName" class="form-control" id="scoreUserName1" placeholder="专家名称">
                     </div>
-                    <div class="container">
-                        <label for="txt_departmentlevel">项目名称</label>
-                            <select id="slpk" class="selectpicker" data-live-search="false" ></select>
+
+                    <div  class="form-group">
+                        <label for="slpk">项目名称</label>
+                         <br>
+                            <select id="slpk" class="selectpicker" data-max-options="1" data-style="btn-info">
+                                <option value="1">项目名称1</option>
+                                <option value="2">项目名称2</option>
+                                <option value="3">项目名称3</option>
+                                <option value="4">项目名称4</option>
+                                <option value="5">项目名称4</option>
+                            </select>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-default" data-dismiss="modal">关闭
@@ -148,62 +161,87 @@
                 dataType : "json",
                 success : function(data) {//返回list数据并循环获取
                     $("#tb_departments").bootstrapTable('load',data);
+
                 }
             });
         }
     }
 
-    function xx(){
-        var i = 0;
-        var id;
-        $("input[name='btSelectItem']:checked").each(function () {
-            i++;
-            id = $(this).parents("tr").attr("data-uniqueid");
-        })
-        if (i > 1) {
-            alert("编辑只支持单一操作")
-        } else {
-            if (i != 0) {
-                alert("获取选中的id为" + id);
-                window.location.href = "/index/index";
-            } else {
-                alert("请选中要编辑的数据");
-            }
+    function add_info(){
+        var scoreUserId1 = $("#scoreUserId1").val();
+        var scoreUserName1= $("#scoreUserName1").val();
+        var slpk= $("#slpk").val();
+        var datas =[
+            {"scoreUserId1":scoreUserId1,"scoreUserName1":scoreUserName1,"slpk":slpk}
+                ];
 
-        }
+        $.ajax({
+            type : 'POST',
+            url : "/reviewInfo/addScore",
+            contentType: "application/json;charset=utf-8",
+            data :JSON.stringify(
+                datas
+            ) ,
+            dataType : "json",
+            success : function(data) {//返回list数据并循环获取
+             if(data=="S"){
+                 $('#addModal1').modal('hide');
+                 alert("添加成功！");
+                 var opt = {
+                     url: "/reviewInfo/getScoreList",
+                     silent: true,
+                 };
+                 $('#tb_departments').bootstrapTable('refresh',opt);
+             }
+            },
+            error:function(){
+            }
+        });
 
     }
-
-
 
     function addScore(){
        //$("#myIframe")[0].src="http://localhost:8080/reviewInfo/addInfo";
         $('#addModal1').modal({show:true});
-        $(".selectpicker").selectpicker({
+      /*  $(".selectpicker").selectpicker({
             noneSelectedText : '请选择'
         });
-        $(window).on('load', function() {
-            $('.selectpicker').selectpicker('val', '');
-            $('.selectpicker').selectpicker('refresh');
-        });
-        //下拉数据加载
+*/
+    }
+
+    function grade(){
+        var scoreId = $("#scoreId").val();
+        var scoreUserName = $("#scoreUserName").val();
+        var reviewName= $("#reviewName").val();
+        var scoreValue = $("#scoreValue").val();
+        var scoreUserDesc= $("#scoreUserDesc").val();
+
+        var datas =[
+            {"scoreId":scoreId,"scoreUserName":scoreUserName,"reviewName":reviewName,"scoreValue":scoreValue,"scoreUserDesc":scoreUserDesc}
+        ];
         $.ajax({
             type : 'POST',
-            url : '/reviewInfo/getList',
+            url : "/reviewInfo/grade",
             contentType: "application/json;charset=utf-8",
+            data :JSON.stringify(
+                datas
+            ) ,
             dataType : "json",
-            success : function(datas) {//返回list数据并循环获取
-                var select = $("#slpk");
-                for (var i = 0; i < datas.length; i++) {
-                    select.append("<option value='"+datas[i].prjName+"'>"
-                        + datas[i].prjName + "</option>");
+            success : function(data) {//返回list数据并循环获取
+                if(data=="S"){
+                    $('#addModal1').modal('hide');
+                    alert("添加成功！");
+                    var opt = {
+                        url: "/reviewInfo/getScoreList",
+                        silent: true,
+                    };
+                    $('#tb_departments').bootstrapTable('refresh',opt);
                 }
-                $('.selectpicker').selectpicker('val', '');
-                $('.selectpicker').selectpicker('refresh');
+            },
+            error:function(){
             }
         });
     }
-
    function btn_delete(){
         var row= $('#tb_departments').bootstrapTable('getSelections',function (row) {
                    return row;
@@ -238,6 +276,8 @@
         //1.初始化Table
         var oTable = new TableInit();
         oTable.Init();
+        $('#tb_departments').bootstrapTable('hideColumn', 'scoreId');
+        $('#tb_departments').bootstrapTable('hideColumn', 'scoreUserId');
         //2.初始化Button的点击事件
         var oButtonInit = new ButtonInit();
         oButtonInit.Init();
@@ -248,7 +288,7 @@
         //初始化Table
         oTableInit.Init = function () {
             $('#tb_departments').bootstrapTable({
-                editable:true,//开启编辑模式
+               // editable:true,//开启编辑模式
                 url: '/reviewInfo/getScoreList',         //请求后台的URL（*）
                 contentType : "application/x-www-form-urlencoded",
                 method: 'post',                      //请求方式（*）
@@ -273,29 +313,28 @@
                     checkbox: true
                 }, {
                     field: 'scoreId',
-                    title: '项目名称',
-                    edit:{type:'text'}
-
+                    title: '#',
+                    hideColumn:true,
                 }, {
                     field: 'scoreUserId',
                     title: '专家ID',
-                    edit:{type:'text'}
+                    editable:true,
                 }, {
                     field: 'scoreUserName',
                     title: '专家姓名',
-                    edit:{type:'text'}
-                }, {
-                    field: 'scoreUserDesc',
-                    title: '专家评语',
-                    edit:{type:'text'}
+                    editable:true,
                 }, {
                     field: 'reviewName',
                     title: '项目名称',
-                    edit:{type:'text'}
+                    editable:true,
+                }, {
+                    field: 'scoreUserDesc',
+                    title: '专家评语',
+                    editable:true,
                 },{
                     field: 'scoreValue',
                     title: '分值',
-                    edit:{type:'text'}
+                    editable:true,
                 }, {
                     field: 'scoreTime',
                     title: '打分时间',
@@ -304,7 +343,7 @@
                     formatter: function (value, row, index) {
                         return changeDateFormat(value);
                     },
-                    edit:{type:'text'}
+
                     },{
                     field: 'reviewprjId',
                     title: '打分',
@@ -344,7 +383,7 @@
         }
 
 
-            //得到查询的参数
+        //得到查询的参数
         oTableInit.queryParams = function (params) {
             var temp = {   //这里的键的名字和控制器的变量名必须一直，这边改动，控制器也需要改成一样的
                 limit: params.limit,   //页面大小
@@ -374,6 +413,12 @@
     }
     window.operateEvents = {
         'click .RoleOfedit': function (e, value, row, index) {
+
+          $("#scoreId").attr("value",row.scoreId);
+            $("#scoreUserName").attr("value",row.scoreUserName);
+            $("#scoreUserName").attr("readonly","true");
+            $("#reviewName").attr("value",row.reviewName);
+            $("#reviewName").attr("readonly","true");
             $("#editModal").modal('show');
 
         }
