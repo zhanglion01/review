@@ -34,14 +34,14 @@ public class ReviewScoreService  implements ReviewScoreIservice{
     }
 
     public void insertSelective(ReviewScore reviewScore){
-        List<ReviewScore> list =reviewScoreMapper.queryById(reviewScore.getScoreId());
-        if(list.size()>0){
-            reviewScoreMapper.updateByPrimaryKeySelective(reviewScore);
-        }else{
+
             reviewScoreMapper.insertSelective(reviewScore);
-        }
+
     }
 
+    public void update(ReviewScore reviewScore){
+        reviewScoreMapper.updateByPrimaryKeySelective(reviewScore);
+    }
     public void grade(ReviewScore reviewScore){
         reviewScoreMapper.updateByPrimaryKeySelective(reviewScore);
     }

@@ -43,7 +43,7 @@
         FROM
         REVIEW_SCORE S
         where 1=1
-            and SCORE_ID = #{0}
+            and review_name like '%' #{0} '%'
 
     </select>
 

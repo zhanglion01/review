@@ -77,20 +77,13 @@ public class ReviewController {
 
     @ResponseBody
     @RequestMapping(value = "/getList",method = RequestMethod.POST)
-    public List getList(HttpServletRequest request){
-        List poList = new ArrayList<>();
+    public Map<String,Object> getList(HttpServletRequest request){
+        Map<String, Object> map = new HashMap<String, Object>();
         String params = request.getParameter("params");
-        poList = reviewPrjinfoService.getSummaryList(params);
-        List list = null;
-        for(int i=0;i<poList.size();i++){
-            Object[] obj = (Object[])poList.get(i);
-            ReviewPrjinfo reviewPrjinfo = new ReviewPrjinfo();
-            reviewPrjinfo.setReviewprjId((String)obj[0]);
-            reviewPrjinfo.setPrjUnit((String)obj[1]);
-            list.add(reviewPrjinfo);
-        }
-        System.out.println("getAAAA");
-        return list;
+        List<ReviewPrjinfo>  poList = reviewPrjinfoService.getSummaryList(params);
+        map.put("total", poList.size());
+        map.put("rows", poList);
+        return map;
     }
 
     @ResponseBody
@@ -140,12 +133,14 @@ public class ReviewController {
         JSONObject jsonObject = JSONObject.parseObject(reviewScore);
         String scoreUserID = jsonObject.getString("scoreUserId1");
         String scoreUserName = jsonObject.getString("scoreUserName1");
-        String reviewprjId = jsonObject.getString("slpk");
+        String reviewprjId = jsonObject.getString("reviewprjId");
+        String reviewName = jsonObject.getString("reviewName");
         System.out.println("AAA"+scoreUserID);
         ReviewScore score = new ReviewScore();
         score.setScoreUserId(scoreUserID);
         score.setScoreUserName(scoreUserName);
         score.setReviewprjId(reviewprjId);
+        score.setReviewName(reviewName);
         reviewScoreService.insertSelective(score);
         return 'S';
     }

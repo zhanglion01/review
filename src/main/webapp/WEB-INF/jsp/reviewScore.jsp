@@ -3,8 +3,9 @@
 <head>
     <title>专家打分信息</title>
     <link rel="stylesheet" href="/css/bootstrap.css" rel="stylesheet" >
-    <link rel="stylesheet" href="/css/bootstrap-table.min.css" rel="stylesheet" >
     <link rel="stylesheet" href="/css/bootstrap-select.min.css" rel="stylesheet" >
+    <link rel="stylesheet" href="/css/bootstrap-table.min.css" rel="stylesheet" >
+
     <link rel="stylesheet" href="/css/bootstrap-editable.css" rel="stylesheet" >
 
     <script src="/css/jquery-3.3.1.min.js"></script>
@@ -36,9 +37,6 @@
     <div id="toolbar" class="btn-group" >
         <button id="btn_add" type="button" class="btn btn-primary" onclick="addScore()">
             <span class="glyphicon-plus" aria-hidden="true"></span>新增
-        </button>
-        <button id="btn_edit" type="button" class="btn btn-primary" >
-            <span class="glyphicon-pencil" aria-hidden="true"></span>修改
         </button>
         <button id="btn_delete" type="button" class="btn btn-primary" onclick="btn_delete()">
             <span class="glyphicon-remove" aria-hidden="true"></span>删除
@@ -88,7 +86,7 @@
                     <button type="submit" class="btn btn-primary"  onclick ="grade()">确定</button>
                     <button type="button" class="btn green" data-dismiss="modal">取消</button>
                 </div>
-                </form>
+
             </div>
         </div>
     </div>
@@ -115,15 +113,15 @@
                         <input type="text" name="scoreUserName" class="form-control" id="scoreUserName1" placeholder="专家名称">
                     </div>
 
-                    <div  class="form-group">
-                        <label for="slpk">项目名称</label>
+                    <div  >
+                        <label >项目名称</label>
                          <br>
-                            <select id="slpk" class="selectpicker" data-max-options="1" data-style="btn-info">
-                                <option value="1">项目名称1</option>
+                        <select id="sel_driver" class="selectpicker show-tick form-control" data-live-search="true"  >
+                                <%--<option value="1">项目名称1</option>
                                 <option value="2">项目名称2</option>
                                 <option value="3">项目名称3</option>
                                 <option value="4">项目名称4</option>
-                                <option value="5">项目名称4</option>
+                                <option value="5">项目名称4</option>--%>
                             </select>
                     </div>
                     <div class="modal-footer">
@@ -170,9 +168,10 @@
     function add_info(){
         var scoreUserId1 = $("#scoreUserId1").val();
         var scoreUserName1= $("#scoreUserName1").val();
-        var slpk= $("#slpk").val();
+        var reviewprjId= $("#sel_driver").val();
+        var reviewName = $("#sel_driver").find("option:selected").text();
         var datas =[
-            {"scoreUserId1":scoreUserId1,"scoreUserName1":scoreUserName1,"slpk":slpk}
+            {"scoreUserId1":scoreUserId1,"scoreUserName1":scoreUserName1,"reviewprjId":reviewprjId,"reviewName":reviewName}
                 ];
 
         $.ajax({
@@ -201,12 +200,24 @@
     }
 
     function addScore(){
-       //$("#myIframe")[0].src="http://localhost:8080/reviewInfo/addInfo";
+
         $('#addModal1').modal({show:true});
-      /*  $(".selectpicker").selectpicker({
-            noneSelectedText : '请选择'
-        });
-*/
+        /*$.ajax({
+            type : 'POST',
+            url : "/reviewInfo/getSummaryList",
+            contentType: "application/json;charset=utf-8",
+            dataType : "json",
+            success : function(data) {//返回list数据并循环获取
+               var modelList = data.rows;
+                for(var i =0;i<data.total;i++){
+                    $("#sel_driver").append("<option value='"+modelList[i].reviewprjId+"'>"+modelList[i].prjName+"</option>");
+                }
+                $('#sel_driver').selectpicker('refresh');//最后重新刷新bootstrap-select的样式 这句很重要，不加不行
+            },
+            error:function(){
+            }
+        });*/
+
     }
 
     function grade(){
@@ -215,10 +226,8 @@
         var reviewName= $("#reviewName").val();
         var scoreValue = $("#scoreValue").val();
         var scoreUserDesc= $("#scoreUserDesc").val();
-
         var datas =[
-            {"scoreId":scoreId,"scoreUserName":scoreUserName,"reviewName":reviewName,"scoreValue":scoreValue,"scoreUserDesc":scoreUserDesc}
-        ];
+            {"scoreId":scoreId,"scoreUserName":scoreUserName,"reviewName":reviewName,"scoreValue":scoreValue,"scoreUserDesc":scoreUserDesc}];
         $.ajax({
             type : 'POST',
             url : "/reviewInfo/grade",
@@ -275,12 +284,30 @@
     $(function () {
         //1.初始化Table
         var oTable = new TableInit();
+        $.ajax({
+            type : 'POST',
+            url : "/reviewInfo/getSummaryList",
+            contentType: "application/json;charset=utf-8",
+            dataType : "json",
+            success : function(data) {//返回list数据并循环获取
+                var modelList = data.rows;
+                for(var i =0;i<data.total;i++){
+                    $("#sel_driver").append("<option value='"+modelList[i].reviewprjId+"'>"+modelList[i].prjName+"</option>");
+                }
+                $('#sel_driver').selectpicker('refresh');//最后重新刷新bootstrap-select的样式 这句很重要，不加不行
+            },
+            error:function(){
+            }
+        });
+
         oTable.Init();
         $('#tb_departments').bootstrapTable('hideColumn', 'scoreId');
         $('#tb_departments').bootstrapTable('hideColumn', 'scoreUserId');
+
         //2.初始化Button的点击事件
         var oButtonInit = new ButtonInit();
         oButtonInit.Init();
+
     });
 
     var TableInit = function () {
@@ -314,27 +341,21 @@
                 }, {
                     field: 'scoreId',
                     title: '#',
-                    hideColumn:true,
                 }, {
                     field: 'scoreUserId',
                     title: '专家ID',
-                    editable:true,
                 }, {
                     field: 'scoreUserName',
                     title: '专家姓名',
-                    editable:true,
                 }, {
                     field: 'reviewName',
                     title: '项目名称',
-                    editable:true,
                 }, {
                     field: 'scoreUserDesc',
                     title: '专家评语',
-                    editable:true,
                 },{
                     field: 'scoreValue',
                     title: '分值',
-                    editable:true,
                 }, {
                     field: 'scoreTime',
                     title: '打分时间',
@@ -413,8 +434,7 @@
     }
     window.operateEvents = {
         'click .RoleOfedit': function (e, value, row, index) {
-
-          $("#scoreId").attr("value",row.scoreId);
+            $("#scoreId").attr("value",row.scoreId);
             $("#scoreUserName").attr("value",row.scoreUserName);
             $("#scoreUserName").attr("readonly","true");
             $("#reviewName").attr("value",row.reviewName);
