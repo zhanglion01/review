@@ -100,7 +100,7 @@
                 <form method="POST" enctype="multipart/form-data" action="/upload">
                     <input type="file" name="file"><br />
                     <input type="file" name="file"><br />
-                    <input type="text" name="name" hidden="ture" value="<%=request.getParameter("uuid")%>">
+                    <input type="text" name="uuidName" id="uuidName" hidden="ture">
                     <input type="submit" value="上传">
                 </form>
             </div>
@@ -186,6 +186,7 @@
         // location.href = str+"/PsInfoFill/uploadjsp?uuid="+id;
         //$('#filemodel').modal({show:true});
         $('#filemodel').modal("show")
+        $("#uuidName").attr("value",id);
     }
     //请求服务数据时所传参数
     function queryParams(params) {

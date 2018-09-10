@@ -47,9 +47,9 @@ public class CreateCodeController{
 
     }
 
-    public static void main(String[] args) throws Exception {
-
-        proCode(new PsFile(),"PS_FILE");
-    }
+//    public static void main(String[] args) throws Exception {
+//
+//        proCode(new PsFile(),"PS_FILE");
+//    }
 
 }
