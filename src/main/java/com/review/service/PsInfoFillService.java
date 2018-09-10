@@ -13,6 +13,16 @@ import java.util.List;
 public class PsInfoFillService implements IPsInfoFillService {
     @Resource
     private PsInfoFillMapper psInfoFillMapper;
+
+    @Override
+    public void edit(PsInfoFill psInfoFill) { psInfoFillMapper.edit(psInfoFill);}
+
+    @Override
+    public void save(PsInfoFill psInfoFill) {psInfoFillMapper.insert(psInfoFill);}
+
+    @Override
+    public void delete(String uuid) {  psInfoFillMapper.delete(uuid);}
+
     @Override
     public List<PsInfoFill> getPsfillList(PsInfoFill psInfoFill) {
         return psInfoFillMapper.listAll(psInfoFill);

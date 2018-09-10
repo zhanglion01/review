@@ -4,26 +4,25 @@
 
 
     <!-- 新增-->
-    <insert id="save" parameterType="com.review.pojo.PsInfoFill">
+    <insert id="insert" parameterType="com.review.pojo.PsInfoFill" useGeneratedKeys="true" keyProperty="uuid">
         insert into PS_INFO_FILL(
         re_name,
         re_prj,
         re_year,
-        re_unit,
-    uuid
+        re_unit
         ) values (
-        #{re_name},
-        #{re_prj},
-        #{re_year},
-        #{re_unit},
-    #{uuid}
+        #{reName},
+        #{rePrj},
+        #{reYear},
+        #{reUnit}
+
         )
     </insert>
 
 
     <!-- 删除-->
-    <delete id="delete" parameterType="com.review.pojo.PsInfoFill">
-        delete from PS_info_fill
+    <delete id="delete" parameterType="java.lang.String">
+        delete from PS_INFO_FILL
         where
     uuid = #{uuid}
     </delete>
@@ -31,12 +30,12 @@
 
     <!-- 修改 -->
     <update id="edit" parameterType="com.review.pojo.PsInfoFill">
-        update  PS_info_fill
+        update  PS_INFO_FILL
         set
-            re_name = #{re_name},
-            re_prj = #{re_prj},
-            re_year = #{re_year},
-            re_unit = #{re_unit},
+            re_name = #{reName},
+            re_prj = #{rePrj},
+            re_year = #{reYear},
+            re_unit = #{reUnit}
         where
     uuid = #{uuid}
     </update>
@@ -51,7 +50,7 @@
         re_unit,
     uuid
         from
-    PS_info_fill
+    PS_INFO_FILL
         where
     uuid = #{uuid}
     </select>
@@ -67,13 +66,12 @@
         from
     PS_INFO_FILL a
         where 1=1
-
-          <!--<if test="reName!=null">-->
-              <!--and  a.re_name like #{reName}-->
-          <!--</if>-->
-          <!--<if test="reYear!=null">-->
-              <!--and a.re_year like #{reYear}-->
-          <!--</if>-->
+          <if test="reName!=null">
+              and  a.re_name like #{reName}
+          </if>
+          <if test="reYear!=null">
+              and a.re_year like #{reYear}
+          </if>
 
     </select>
     
