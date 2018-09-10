@@ -17,4 +17,6 @@ public interface ReviewScoreIservice {
 
     public void grade(ReviewScore reviewScore);
 
+    public void update(ReviewScore reviewScore);
+
 }
