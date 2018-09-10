@@ -2,7 +2,7 @@ package com.review.aotuUtil.create;
 
 import com.review.aotuUtil.util.Freemarker;
 import com.review.aotuUtil.util.ReflectBean;
-import com.review.pojo.PsInfoFill;
+import com.review.pojo.*;
 
 import java.util.Date;
 import java.util.HashMap;
@@ -42,14 +42,14 @@ public class CreateCodeController{
 
 
         /*生成mybatis xml*/
-        Freemarker.printFile("mapperMysqlTemplate.ftl", root, ""+PsInfoFill.class.getSimpleName()+"Mapper.xml", filePath, ftlPath);
+        Freemarker.printFile("mapperMysqlTemplate.ftl", root, ""+ PsFile.class.getSimpleName()+"Mapper.xml", filePath, ftlPath);
 
 
     }
 
     public static void main(String[] args) throws Exception {
 
-        proCode(new PsInfoFill(),"PS_info_fill");
+        proCode(new PsFile(),"PS_FILE");
     }
 
 }

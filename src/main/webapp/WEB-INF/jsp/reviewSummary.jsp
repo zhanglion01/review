@@ -50,7 +50,7 @@
 </body>
 <script type="text/javascript">
     function addPrj(){
-        $("#myIframe")[0].src="http://localhost:8080/reviewInfo/addInfo";
+        $("#myIframe")[0].src="http://localhost:8888/reviewInfo/addInfo";
         $('#myModal').modal({show:true});
     }
 

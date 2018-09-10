@@ -28,5 +28,23 @@ public class ReviewScoreService  implements ReviewScoreIservice{
         return list;
     }
 
+    @Override
+    public void deleteById(String params){
+        reviewScoreMapper.deleteById(params);
+    }
+
+    public void insertSelective(ReviewScore reviewScore){
+
+            reviewScoreMapper.insertSelective(reviewScore);
+
+    }
+
+    public void update(ReviewScore reviewScore){
+        reviewScoreMapper.updateByPrimaryKeySelective(reviewScore);
+    }
+    public void grade(ReviewScore reviewScore){
+        reviewScoreMapper.updateByPrimaryKeySelective(reviewScore);
+    }
+
 
 }

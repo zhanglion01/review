@@ -1,10 +1,15 @@
 package com.review.controller;
 
-import com.fasterxml.jackson.databind.util.JSONPObject;
+
+
+
+import com.alibaba.fastjson.JSONObject;
 import com.review.pojo.ReviewPrjinfo;
 import com.review.pojo.ReviewScore;
 import com.review.service.ReviewPrjinfoService;
 import com.review.service.ReviewScoreService;
+
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -14,7 +19,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
-import java.text.SimpleDateFormat;
+
 import java.util.*;
 
 @Controller
@@ -72,20 +77,13 @@ public class ReviewController {
 
     @ResponseBody
     @RequestMapping(value = "/getList",method = RequestMethod.POST)
-    public List getList(HttpServletRequest request){
-        List poList = new ArrayList<>();
+    public Map<String,Object> getList(HttpServletRequest request){
+        Map<String, Object> map = new HashMap<String, Object>();
         String params = request.getParameter("params");
-        poList = reviewPrjinfoService.getSummaryList(params);
-        List list = null;
-        for(int i=0;i<poList.size();i++){
-            Object[] obj = (Object[])poList.get(i);
-            ReviewPrjinfo reviewPrjinfo = new ReviewPrjinfo();
-            reviewPrjinfo.setReviewprjId((String)obj[0]);
-            reviewPrjinfo.setPrjUnit((String)obj[1]);
-            list.add(reviewPrjinfo);
-        }
-        System.out.println("getAAAA");
-        return list;
+        List<ReviewPrjinfo>  poList = reviewPrjinfoService.getSummaryList(params);
+        map.put("total", poList.size());
+        map.put("rows", poList);
+        return map;
     }
 
     @ResponseBody
@@ -114,13 +112,61 @@ public class ReviewController {
     }
     @ResponseBody
     @RequestMapping(value = "/delete",method = RequestMethod.POST)
-    public Object delete(@RequestBody Object  reviewScore) {
-        System.out.println("BBB");
-
-
+    public Object delete(@RequestBody String  reviewScore)  {
         System.out.println(reviewScore);
-        System.out.println("AAA");
+        reviewScore=reviewScore.replace("[", "");
+        reviewScore=reviewScore.replace("]", "");
+        JSONObject jsonObject = JSONObject.parseObject(reviewScore);
+        String scoreID = jsonObject.getString("scoreId");
+        reviewScoreService.deleteById(scoreID);
 
         return 'S';
     }
+
+
+    @ResponseBody
+    @RequestMapping(value = "/addScore",method = RequestMethod.POST)
+    public Object addScore(@RequestBody String  reviewScore)  {
+        System.out.println(reviewScore);
+        reviewScore=reviewScore.replace("[", "");
+        reviewScore=reviewScore.replace("]", "");
+        JSONObject jsonObject = JSONObject.parseObject(reviewScore);
+        String scoreUserID = jsonObject.getString("scoreUserId1");
+        String scoreUserName = jsonObject.getString("scoreUserName1");
+        String reviewprjId = jsonObject.getString("reviewprjId");
+        String reviewName = jsonObject.getString("reviewName");
+        System.out.println("AAA"+scoreUserID);
+        ReviewScore score = new ReviewScore();
+        score.setScoreUserId(scoreUserID);
+        score.setScoreUserName(scoreUserName);
+        score.setReviewprjId(reviewprjId);
+        score.setReviewName(reviewName);
+        reviewScoreService.insertSelective(score);
+        return 'S';
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "/grade",method = RequestMethod.POST)
+    public Object grade(@RequestBody String  reviewScore)  {
+        System.out.println(reviewScore);
+        reviewScore=reviewScore.replace("[", "");
+        reviewScore=reviewScore.replace("]", "");
+        JSONObject jsonObject = JSONObject.parseObject(reviewScore);
+        String scoreId = jsonObject.getString("scoreId");
+        String scoreUserName = jsonObject.getString("scoreUserName");
+        String reviewName = jsonObject.getString("reviewName");
+        String scoreValue = jsonObject.getString("scoreValue");
+        String scoreUserDesc = jsonObject.getString("scoreUserDesc");
+       System.out.println("AA"+scoreId);
+        ReviewScore score = new ReviewScore();
+        score.setScoreId(scoreId);
+        score.setScoreUserName(scoreUserName);
+        score.setReviewName(reviewName);
+        score.setScoreValue(scoreValue);
+        score.setScoreUserDesc(scoreUserDesc);
+        score.setScoreTime(new Date());
+        reviewScoreService.grade(score);
+        return 'S';
+    }
+
 }
