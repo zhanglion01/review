@@ -28,7 +28,7 @@ public class FileUploadController {
         if (!file.isEmpty()) {
             try {
                 //创建与上传文件相同的文件
-                File saveFile=new File("F:/uploadfile/"+file.getOriginalFilename());
+                File saveFile=new File("D:/uploadfile/"+file.getOriginalFilename());
                 saveFile.createNewFile();
 
                 file.transferTo(saveFile);

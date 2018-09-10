@@ -184,7 +184,7 @@
     function uploadPage(id){
         // var str=window.location.origin;
         // location.href = str+"/PsInfoFill/uploadjsp?uuid="+id;
-         //$('#filemodel').modal({show:true});
+        //$('#filemodel').modal({show:true});
         $('#filemodel').modal("show")
     }
     //请求服务数据时所传参数

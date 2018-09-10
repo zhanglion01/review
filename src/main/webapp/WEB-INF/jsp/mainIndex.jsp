@@ -121,7 +121,8 @@
     }
     
     function exitSys() {
-        location.href = "http://localhost:8080/review/login";
+        var str=window.location.origin;
+        location.href = str+"/review/login";
     }
 </script>
 </html>

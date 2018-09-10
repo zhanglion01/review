@@ -23,6 +23,7 @@ public class LoginController {
 
     @RequestMapping(value = "/login")
     public String user(HttpServletRequest request) {
+        request.getSession().removeAttribute("userId");
         return "login";
     }
 
@@ -33,7 +34,7 @@ public class LoginController {
 
     @ResponseBody
     @RequestMapping(value = "/loginCheck",method = RequestMethod.POST)
-    public Map<String, String> loginCheck(@RequestBody String user) {
+    public Map<String, String> loginCheck(@RequestBody String user,HttpServletRequest request) {
         String userName = user.split("&")[0];
         String password = user.split("&")[1];
         System.out.println(password);
@@ -45,6 +46,7 @@ public class LoginController {
             return hashMap;
         }else {
             if(psUser.getPsuserPass().equals(password)){
+               request.getSession().setAttribute("userId",userName);
                 hashMap.put("msg", "sucess");
                 return hashMap;
             }else{
