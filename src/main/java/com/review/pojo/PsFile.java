@@ -1,21 +1,23 @@
 package com.review.pojo;
 
 
+import java.util.Date;
+
 public class PsFile {
 
-  private String uuid;
+  private int uuid;
   private String sheetId;
   private String fileName;
   private String filePath;
   private String fileType;
-  private java.sql.Timestamp sjc;
+  private Date sjc;
 
 
-  public String getUuid() {
+  public int getUuid() {
     return uuid;
   }
 
-  public void setUuid(String uuid) {
+  public void setUuid(int uuid) {
     this.uuid = uuid;
   }
 
@@ -56,11 +58,11 @@ public class PsFile {
   }
 
 
-  public java.sql.Timestamp getSjc() {
+  public Date getSjc() {
     return sjc;
   }
 
-  public void setSjc(java.sql.Timestamp sjc) {
+  public void setSjc(Date sjc) {
     this.sjc = sjc;
   }
 

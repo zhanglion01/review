@@ -110,6 +110,25 @@
         </div>
     </div>
 </div>
+<div id="downmodel"  class="modal fade"  role="dialog" >
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" >附件下载</h4>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="reName">附件列表</label>
+                    <input type="text" name="reName" class="form-control" id="reName" placeholder="xxxx奖项目">
+                </div>
+            </div>
+            <div class="modal-footer bg-info">
+                <button type="button" class="btn green" data-dismiss="modal">取消</button>
+            </div>
+        </div>
+    </div>
+</div>
 
 </body>
 <script>
@@ -178,6 +197,9 @@
         return [
             '<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" onclick="uploadPage('+uuid+')">\n' +
             ' 上传'+
+            '</button>&nbsp;&nbsp;'+
+            '<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" onclick="downloadPage('+uuid+')">\n' +
+            ' 下载'+
             '</button>'
         ].join('');
     }
@@ -187,6 +209,12 @@
         //$('#filemodel').modal({show:true});
         $('#filemodel').modal("show")
         $("#uuidName").attr("value",id);
+    }
+
+    function downloadPage(id){
+
+        $('#downmodel').modal("show")
+        $("#dowmuuid").attr("value",id);
     }
     //请求服务数据时所传参数
     function queryParams(params) {

@@ -5,7 +5,7 @@
 
     <!-- 新增-->
     <insert id="insert" parameterType="com.review.pojo.PsFile" useGeneratedKeys="true" keyProperty="uuid">
-        insert into PS_INFO_FILL(
+        insert into PS_FILE(
         sheet_id,
         file_name,
         file_path,
@@ -16,7 +16,7 @@
         #{fileName},
         #{filePath},
         #{fileType},
-        #{sjc}
+        #{sjc,jdbcType=TIMESTAMP}
         )
     </insert>
 

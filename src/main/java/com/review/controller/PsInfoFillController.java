@@ -64,7 +64,7 @@ public class PsInfoFillController {
         String rePrj = jsonObject.getString("rePrj");
         String reUnit = jsonObject.getString("reUnit");
         PsInfoFill psInfoFill=new PsInfoFill();
-        psInfoFill.setReYear("%"+reYear+"%");
+        psInfoFill.setReYear(reYear);
         psInfoFill.setReName(reName);
         psInfoFill.setRePrj(rePrj);
         psInfoFill.setReUnit(reUnit);
