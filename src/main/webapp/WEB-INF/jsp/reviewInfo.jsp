@@ -89,6 +89,7 @@
     </div>
 </div>
 
+
 <div id="filemodel"  class="modal fade"  role="dialog" >
     <div class="modal-dialog">
         <div class="modal-content">
@@ -110,8 +111,10 @@
         </div>
     </div>
 </div>
+
 <div id="downmodel"  class="modal fade"  role="dialog" >
     <div class="modal-dialog">
+        ${list}
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
@@ -119,8 +122,8 @@
             </div>
             <div class="modal-body">
                 <div class="form-group">
-                    <label for="reName">附件列表</label>
-                    <input type="text" name="reName" class="form-control" id="reName" placeholder="xxxx奖项目">
+                    <label for="reName">附件列表 </label><br/>
+                    <input type="text" name="downfilename" class="form-control" id="downfilename" placeholder="该项目无附件信息">
                 </div>
             </div>
             <div class="modal-footer bg-info">
@@ -132,7 +135,6 @@
 
 </body>
 <script>
-
     //根据窗口调整表格高度
     $(window).resize(function () {
         $('#mytab').bootstrapTable('resetView', {
@@ -204,17 +206,33 @@
         ].join('');
     }
     function uploadPage(id){
-        // var str=window.location.origin;
-        // location.href = str+"/PsInfoFill/uploadjsp?uuid="+id;
-        //$('#filemodel').modal({show:true});
         $('#filemodel').modal("show")
         $("#uuidName").attr("value",id);
     }
 
     function downloadPage(id){
+        $.ajax({
+            url: "/psfile/findlist",
+            data: id,
+            dataType: "json",
+            contentType: "application/json;charset=utf-8",
+            type: "post",
+            success: function (dataMap) {
+                var message=dataMap.msg;
+                if(message=="success"){
+                    $('#downmodel').modal("show");
+                    $("#downfilename").attr('value',dataMap.data);
+                }else{
+                    alert(dataMap.msg);
+                }
 
-        $('#downmodel').modal("show")
-        $("#dowmuuid").attr("value",id);
+
+
+            }, error: function () {
+                alert("ajax请求错误！");
+            }
+        });
+
     }
     //请求服务数据时所传参数
     function queryParams(params) {

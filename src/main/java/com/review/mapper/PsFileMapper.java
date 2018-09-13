@@ -15,5 +15,5 @@ public interface PsFileMapper {
 
     public PsInfoFill find(String id);
 
-    public List<PsInfoFill> listAll(PsFile psFilel);
+    public List<PsInfoFill> listAll(PsFile psFile);
 }
