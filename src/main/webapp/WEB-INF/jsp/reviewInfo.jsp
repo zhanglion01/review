@@ -114,7 +114,6 @@
 
 <div id="downmodel"  class="modal fade"  role="dialog" >
     <div class="modal-dialog">
-        ${list}
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
@@ -123,7 +122,8 @@
             <div class="modal-body">
                 <div class="form-group">
                     <label for="reName">附件列表 </label><br/>
-                    <input type="text" name="downfilename" class="form-control" id="downfilename" placeholder="该项目无附件信息">
+                   <ul>
+                   </ul>
                 </div>
             </div>
             <div class="modal-footer bg-info">
@@ -211,9 +211,10 @@
     }
 
     function downloadPage(id){
+        var id={"id":id};
         $.ajax({
             url: "/psfile/findlist",
-            data: id,
+            data:  JSON.stringify(id),
             dataType: "json",
             contentType: "application/json;charset=utf-8",
             type: "post",
@@ -221,18 +222,24 @@
                 var message=dataMap.msg;
                 if(message=="success"){
                     $('#downmodel').modal("show");
-                    $("#downfilename").attr('value',dataMap.data);
+                    for(var i=0;i<dataMap.data.length;i++){
+                        var filename=dataMap.data[i].fileName+"."+dataMap.data[i].fileType;
+                        var filePath=dataMap.data[i].filePath;
+                        var htmltr ="<li><a href=\"javascript:downloadfile('"+filename+"','"+filePath+"');\">"+filename+"</a></li>";
+                        $("ul").append(htmltr);
+                    }
                 }else{
                     alert(dataMap.msg);
                 }
-
-
-
             }, error: function () {
                 alert("ajax请求错误！");
             }
         });
 
+    }
+    function downloadfile(fileName,filePath){
+        var str=window.location.origin;
+        window.open(str+"/psfile/download?fileName="+fileName+"&filePath="+filePath);
     }
     //请求服务数据时所传参数
     function queryParams(params) {

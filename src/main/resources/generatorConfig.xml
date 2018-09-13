@@ -13,9 +13,9 @@
         </commentGenerator>
         <!-- JDBC连接 -->
         <jdbcConnection driverClass="com.mysql.jdbc.Driver"
-                        connectionURL="jdbc:mysql://127.0.0.1:3306/jycps?useUnicode=true&amp;characterEncoding=UTF-8"
+                        connectionURL="jdbc:mysql://107.182.180.243:3306/mysql?useUnicode=true&amp;characterEncoding=UTF-8"
                         userId="root"
-                        password="root">
+                        password="sss214329">
         </jdbcConnection>
         <!-- 一定要注意上述connectionURL链接中的"&amp;"而不是直接写"&" -->
         <!-- 类型转换 -->
@@ -24,20 +24,20 @@
             <property name="forceBigDecimals" value="false" />
         </javaTypeResolver>
         <!-- 生成实体类地址 -->
-        <javaModelGenerator targetPackage="com.jiayou.cps.pojo" targetProject="D:\workspace\jy_cps\jy_cps\src\main\java">
+        <javaModelGenerator targetPackage="com.review.pojo" targetProject="C:\Users\ASUS\IdeaProjects\review\src\main\java">
             <property name="enableSubPackages" value="true" /> <!-- 是否在当前路径下新加一层-->
             <property name="trimStrings" value="true" /> <!-- 是否针对string类型的字段在set的时候进行trim调用 -->
         </javaModelGenerator>
         <!-- 生成MAPXML文件 -->
-        <sqlMapGenerator targetPackage="sqlmap/test"  targetProject="D:\workspace\jy_cps\jy_cps\src\main\resources">
+        <sqlMapGenerator targetPackage="mapper"  targetProject="C:\Users\ASUS\IdeaProjects\review\src\main\resources">
             <property name="enableSubPackages" value="true" /> <!-- 是否在当前路径下新加一层-->
         </sqlMapGenerator>
         <!-- 生成DAO -->
-        <javaClientGenerator type="XMLMAPPER" targetPackage="com.jiayou.cps.dao"  targetProject="D:\workspace\jy_cps\jy_cps\src\main\java">
+        <javaClientGenerator type="java" targetPackage="com.review.mapper"  targetProject="C:\Users\ASUS\IdeaProjects\review\src\main\java">
             <property name="enableSubPackages" value="true" /> <!-- 是否在当前路径下新加一层-->
         </javaClientGenerator>
         <!-- 配置表信息 -->
-        <table schema="" tableName="tb_test" domainObjectName="Test"
+        <table schema="" tableName="student" domainObjectName="Student"
                enableCountByExample="true"
                enableUpdateByExample="true"
                enableDeleteByExample="true"

@@ -13,11 +13,11 @@ public class PsFile {
   private Date sjc;
 
 
-  public int getUuid() {
+  public int  getUuid() {
     return uuid;
   }
 
-  public void setUuid(int uuid) {
+  public void setUuid(int  uuid) {
     this.uuid = uuid;
   }
 
