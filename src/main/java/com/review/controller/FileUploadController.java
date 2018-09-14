@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 @Controller
 public class FileUploadController {
@@ -23,8 +25,8 @@ public class FileUploadController {
 
     @RequestMapping(value="/upload", method=RequestMethod.POST)
     public @ResponseBody
-    Map<String,String> handleFileUpload(@RequestParam("uuidName") String uuid,
-                                        @RequestParam("file") MultipartFile file){
+    String handleFileUpload(@RequestParam("uuidName") String uuid,
+                            @RequestParam("file") MultipartFile file, HttpServletRequest request, HttpServletResponse response){
         Map msgMap=new HashMap();
         if (!file.isEmpty()) {
             try {
@@ -40,9 +42,9 @@ public class FileUploadController {
                 String fileName=file.getOriginalFilename();
                 String[] obj=fileName.split("\\.");
                 Timestamp sjc = Timestamp.valueOf(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()));
-                String  newfileName = URLEncoder.encode(obj[0], "UTF-8");
+                //String  newfileName = URLEncoder.encode(obj[0], "UTF-8");
                 PsFile psFile=new PsFile();
-                psFile.setFileName(newfileName);
+                psFile.setFileName(obj[0]);
                 psFile.setFileType(obj[1]);
                 psFile.setFilePath("F:/uploadfile/");
                 psFile.setSjc(sjc);
@@ -51,17 +53,18 @@ public class FileUploadController {
                 file.transferTo(saveFile);
                 //保存文件信息
                iFileUploadService.save(psFile);
-//                return  "<Html><body><script>alert('上传成功')</script></body></Html>";
-                msgMap.put("msg","上传成功");
+                return "<Html><body><script>alert('上传成功')</script></body></Html>";
+              //  return  "reviewInfo";
             } catch (Exception e) {
-//                return "<Html><body><script>alert('上传失败')</script></body></Html>";
-                msgMap.put("msg","上传失败");
+               return "<Html><body><script>alert('上传失败')</script></body></Html>";
+//                msgMap.put("msg","上传失败");
             }
         } else {
-            msgMap.put("msg","上传的文件为空");
+           // msgMap.put("msg","上传的文件为空");
+            return  "上传的文件为空";
 
         }
-        return msgMap;
+
     }
 
 }
