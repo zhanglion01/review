@@ -103,35 +103,34 @@
                         评审专家打分信息填写
                     </h4>
                 </div>
-                <form id="form_data" class="bs-example bs-example-form" role = "form">
-                    <div class="form-group">
-                        <label for="scoreUserId1">专家ID</label>
-                        <input type="text" name="scoreUserId" class="form-control" id="scoreUserId1" placeholder="专家ID">
-                    </div>
-                    <div class="form-group">
-                        <label for="scoreUserName">专家名称</label>
-                        <input type="text" name="scoreUserName" class="form-control" id="scoreUserName1" placeholder="专家名称">
-                    </div>
+                <div class="modal-bady">
+                    <form id="form_data" class="bs-example bs-example-form" role = "form">
+                        <div class="form-group">
+                            <label for="scoreUserId1">专家ID</label>
+                            <input type="text" name="scoreUserId" class="form-control" id="scoreUserId1" placeholder="专家ID">
+                        </div>
+                        <div class="form-group">
+                            <label for="scoreUserName">专家名称</label>
+                            <input type="text" name="scoreUserName" class="form-control" id="scoreUserName1" placeholder="专家名称">
+                        </div>
 
-                    <div  >
-                        <label >项目名称</label>
-                         <br>
-                        <select id="sel_driver" class="selectpicker show-tick form-control" data-live-search="true"  >
-                                <%--<option value="1">项目名称1</option>
-                                <option value="2">项目名称2</option>
-                                <option value="3">项目名称3</option>
-                                <option value="4">项目名称4</option>
-                                <option value="5">项目名称4</option>--%>
+                        <div class="form-group" >
+                            <label >项目名称</label><br>
+                            <select id="selectPrj" class="form-control">
+                                <option></option>
                             </select>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">关闭
-                        </button>
-                        <button type="button" onclick="add_info()" class="btn btn-primary">
-                            保存
-                        </button>
-                    </div>
-                </form>
+                        </div>
+
+                    </form>
+                </div>
+                <div class="modal-footer bg-info>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">关闭
+                    </button>
+                    <button type="button" onclick="add_info()" class="btn btn-primary">
+                        保存
+                    </button>
+                </div>
+
             </div><!-- /.modal-content -->
         </div><!-- /.modal -->
 
@@ -168,8 +167,8 @@
     function add_info(){
         var scoreUserId1 = $("#scoreUserId1").val();
         var scoreUserName1= $("#scoreUserName1").val();
-        var reviewprjId= $("#sel_driver").val();
-        var reviewName = $("#sel_driver").find("option:selected").text();
+        var reviewprjId= $("#selectPrj").val();
+        var reviewName = $("#selectPrj").find("option:selected").text();
         var datas =[
             {"scoreUserId1":scoreUserId1,"scoreUserName1":scoreUserName1,"reviewprjId":reviewprjId,"reviewName":reviewName}
                 ];
@@ -292,9 +291,9 @@
             success : function(data) {//返回list数据并循环获取
                 var modelList = data.rows;
                 for(var i =0;i<data.total;i++){
-                    $("#sel_driver").append("<option value='"+modelList[i].reviewprjId+"'>"+modelList[i].prjName+"</option>");
+                    $("#selectPrj").append("<option value='"+modelList[i].reviewprjId+"'>"+modelList[i].prjName+"</option>");
                 }
-                $('#sel_driver').selectpicker('refresh');//最后重新刷新bootstrap-select的样式 这句很重要，不加不行
+               // $('#selectPrj').selectpicker('refresh');//最后重新刷新bootstrap-select的样式 这句很重要，不加不行
             },
             error:function(){
             }
